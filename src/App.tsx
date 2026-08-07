@@ -649,7 +649,7 @@ export default function App() {
         {/* Status bar */}
         <footer className="flex h-9 shrink-0 items-center justify-between border-t border-line bg-ink-850/80 px-4 font-mono text-[10.5px] text-fog-600">
           <span>
-            tunnex v1.1.0 ·{" "}
+            tunnex v1.0.0 ·{" "}
             {isTauri ? (
               <span className="text-live-300">native russh/tokio engine</span>
             ) : (
