@@ -25,18 +25,18 @@ use crate::tunnel::TunnelManager;
 
 /// Configures the tray icon: context menu and click-to-show behaviour.
 fn configure_tray(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
-    let show_item = MenuItem::with_id(app, "show", "Mostrar Tunnex", true, None::<&str>)?;
-    let connect_all_item = MenuItem::with_id(app, "connect_all", "Conectar todo", true, None::<&str>)?;
-    let disconnect_all_item = MenuItem::with_id(app, "disconnect_all", "Desconectar todo", true, None::<&str>)?;
+    let show_item = MenuItem::with_id(app, "show", "Show Tunnex", true, None::<&str>)?;
+    let connect_all_item = MenuItem::with_id(app, "connect_all", "Connect all", true, None::<&str>)?;
+    let disconnect_all_item = MenuItem::with_id(app, "disconnect_all", "Disconnect all", true, None::<&str>)?;
     let console_item = MenuItem::with_id(
         app,
         "console",
-        "Abrir PowerShell",
+        "Open PowerShell",
         true,
         None::<&str>,
     )?;
     let separator = PredefinedMenuItem::separator(app)?;
-    let quit_item = MenuItem::with_id(app, "quit", "Salir", true, None::<&str>)?;
+    let quit_item = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
     let menu = Menu::with_items(
         app,
         &[

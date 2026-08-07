@@ -13,7 +13,7 @@
     "windows": [
       {
         "label": "main",
-        "title": "Tunnex — Túneles SSH & Port Forwarding",
+        "title": "Tunnex — SSH Tunnels & Local Port Forwarding",
         "width": 1280,
         "height": 820,
         "minWidth": 1024,
@@ -32,7 +32,7 @@
       "iconPath": "icons/icon.png",
       "iconAsTemplate": false,
       "title": "Tunnex",
-      "tooltip": "Tunnex — gestor de túneles SSH"
+      "tooltip": "Tunnex — SSH Tunnel Manager"
     }
   },
   "bundle": {
@@ -40,13 +40,13 @@
     "targets": ["nsis", "msi"],
     "publisher": "Tunnex",
     "category": "DeveloperTool",
-    "shortDescription": "Gestor visual de túneles SSH y Port Forwarding",
-    "longDescription": "Tunnex gestiona perfiles SSH y reglas de redirección de puertos local (port forwarding) con una interfaz visual ultraligera: túneles direct-tcpip asíncronos, métricas de tráfico en tiempo real y credenciales cifradas en el Windows Credential Manager.",
+    "shortDescription": "Visual SSH Tunnel & Port Forwarding Manager",
+    "longDescription": "Tunnex manages SSH connection profiles and local port forwarding rules with a lightweight visual interface: async direct-tcpip tunnels, real-time traffic telemetry, and encrypted credentials in the Windows Credential Manager.",
     "windows": {
       "nsis": {
         "installMode": "currentUser",
         "displayLanguageSelector": false,
-        "languages": ["Spanish", "English"]
+        "languages": ["English"]
       }
     },
     "icon": [

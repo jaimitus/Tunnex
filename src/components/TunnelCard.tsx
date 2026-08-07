@@ -375,8 +375,8 @@ export function TunnelCard({
               iconBtn,
               active ? "hover:bg-live-500/20 hover:text-live-300 opacity-90 text-live-400" : "hover:bg-link-400/15 hover:text-link-300"
             )}
-            title={`Abrir http://127.0.0.1:${rule.local_port} en navegador`}
-            aria-label={`Abrir http://127.0.0.1:${rule.local_port} en navegador`}
+            title={`Open http://127.0.0.1:${rule.local_port} in browser`}
+            aria-label={`Open http://127.0.0.1:${rule.local_port} in browser`}
           >
             <ExternalLink size={13} />
           </button>
