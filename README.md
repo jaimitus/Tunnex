@@ -9,11 +9,29 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/jaimitus/Tunnex/releases/tag/v1.0.0"><img src="https://img.shields.io/badge/Download-v1.0.0-emerald?style=for-the-badge&logo=github" alt="Download v1.0.0"></a>
   <a href="https://github.com/jaimitus/Tunnex"><img src="https://img.shields.io/badge/GitHub-jaimitus%2FTunnex-orange?style=for-the-badge&logo=github" alt="GitHub Repository"></a>
   <img src="https://img.shields.io/badge/Platform-Windows%2010%2F11-blue?style=for-the-badge&logo=windows" alt="Platform Windows"></a>
-  <img src="https://img.shields.io/badge/Version-v1.0.0-emerald?style=for-the-badge" alt="Version 1.0.0"></a>
   <img src="https://img.shields.io/badge/Backend-Rust%20%2B%20Tokio%20%2B%20Russh-red?style=for-the-badge&logo=rust" alt="Rust Backend"></a>
 </p>
+
+---
+
+## 📥 Download Release (v1.0.0)
+
+Download pre-compiled Windows binaries from the official [v1.0.0 Release Page](https://github.com/jaimitus/Tunnex/releases/tag/v1.0.0):
+
+<p align="center">
+  <a href="https://github.com/jaimitus/Tunnex/releases/download/v1.0.0/Tunnex_1.0.0_x64-setup.exe"><img src="https://img.shields.io/badge/Download-NSIS%20Installer%20(.exe)-brightgreen?style=for-the-badge&logo=windows" alt="Download NSIS Setup"></a>
+  <a href="https://github.com/jaimitus/Tunnex/releases/download/v1.0.0/Tunnex_1.0.0_x64_en-US.msi"><img src="https://img.shields.io/badge/Download-MSI%20Installer%20(.msi)-blue?style=for-the-badge&logo=windows" alt="Download MSI Installer"></a>
+  <a href="https://github.com/jaimitus/Tunnex/releases/download/v1.0.0/tunnex.exe"><img src="https://img.shields.io/badge/Download-Portable%20(.exe)-orange?style=for-the-badge" alt="Download Portable Exe"></a>
+</p>
+
+| Package | Format | Direct Download Link |
+| :--- | :--- | :--- |
+| **NSIS Setup Installer** *(Recommended)* | `.exe` | [Tunnex_1.0.0_x64-setup.exe](https://github.com/jaimitus/Tunnex/releases/download/v1.0.0/Tunnex_1.0.0_x64-setup.exe) |
+| **MSI Package** | `.msi` | [Tunnex_1.0.0_x64_en-US.msi](https://github.com/jaimitus/Tunnex/releases/download/v1.0.0/Tunnex_1.0.0_x64_en-US.msi) |
+| **Standalone Portable** | `.exe` | [tunnex.exe](https://github.com/jaimitus/Tunnex/releases/download/v1.0.0/tunnex.exe) |
 
 ---
 
@@ -77,11 +95,6 @@ npx @tauri-apps/cli icon src-tauri/icons/icon.png
 npx tauri build
 ```
 
-The output build artifacts will be available at:
-- **Standalone Executable**: `src-tauri/target/release/tunnex.exe`
-- **NSIS Setup Installer**: `src-tauri/target/release/bundle/nsis/Tunnex_1.0.0_x64-setup.exe`
-- **MSI Installer**: `src-tauri/target/release/bundle/msi/Tunnex_1.0.0_x64_en-US.msi`
-
 ---
 
 ## 📁 Configuration & Logs
@@ -94,4 +107,5 @@ The output build artifacts will be available at:
 ## 📄 Repository & License
 
 - **GitHub Repository**: [https://github.com/jaimitus/Tunnex](https://github.com/jaimitus/Tunnex)
+- **Official Releases**: [https://github.com/jaimitus/Tunnex/releases](https://github.com/jaimitus/Tunnex/releases)
 - **License**: MIT License © [jaimitus](https://github.com/jaimitus)
