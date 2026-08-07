@@ -1,0 +1,57 @@
+[package]
+name = "tunnex"
+version = "1.0.0"
+description = "Tunnex — Gestor visual de túneles SSH y Port Forwarding local"
+authors = ["Tunnex"]
+edition = "2021"
+rust-version = "1.77"
+
+# En Tauri v2 el crate raíz del backend vive dentro de src-tauri/
+# (src/main.rs es el binario; no hay lib adicional)
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+# Núcleo de Tauri v2 con icono de bandeja del sistema (tray-icon)
+tauri = { version = "2", features = ["tray-icon", "image-png"] }
+
+# Serialización de perfiles, reglas y estados
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Runtime asíncrono multihilo para los túneles TCP + SSH
+tokio = { version = "1", features = [
+    "rt-multi-thread",
+    "net",
+    "io-util",
+    "sync",
+    "time",
+    "macros",
+] }
+
+# Protocolo SSH asíncrono (russh integra el antiguo russh-keys en `russh::keys`)
+russh = "0.50"
+
+# Windows Credential Manager para contraseñas y passphrases
+keyring = { version = "3", features = ["windows-native"] }
+
+# Resolución de %APPDATA% (C:\Users\<usuario>\AppData\Roaming)
+dirs = "6"
+
+# Identificadores únicos de perfiles y reglas
+uuid = { version = "1", features = ["v4", "serde"] }
+
+# Tipado de errores del backend
+thiserror = "2"
+
+# Diagnóstico
+log = "0.4"
+env_logger = "0.11"
+
+[profile.release]
+panic = "abort"
+codegen-units = 1
+lto = true
+opt-level = "s"
+strip = true

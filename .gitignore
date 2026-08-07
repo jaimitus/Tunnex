@@ -1,0 +1,13 @@
+# Node dependencies & builds
+node_modules/
+dist/
+.DS_Store
+
+# Rust / Cargo build artifacts
+/src-tauri/target/
+
+# System / IDE
+.idea/
+.vscode/
+*.swp
+*.tmp

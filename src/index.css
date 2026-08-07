@@ -1,0 +1,262 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Space Grotesk", "Segoe UI", sans-serif;
+  --font-sans: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", "Cascadia Code", "Consolas", monospace;
+
+  /* Fondo carbón-azulado */
+  --color-ink-950: #060b11;
+  --color-ink-900: #0a101a;
+  --color-ink-850: #0d1522;
+  --color-ink-800: #101a29;
+  --color-ink-750: #15212f;
+  --color-ink-700: #1b2939;
+  --color-ink-600: #25374c;
+
+  --color-line: #1c2a3b;
+  --color-line-strong: #2b3f56;
+
+  /* Texto niebla */
+  --color-fog-100: #eaf1f8;
+  --color-fog-300: #b6c6d8;
+  --color-fog-500: #8299b0;
+  --color-fog-600: #5d7288;
+
+  /* Naranja señal (marca, lado local) */
+  --color-signal-300: #ffa384;
+  --color-signal-400: #ff7f55;
+  --color-signal-500: #ff6636;
+  --color-signal-600: #e04f24;
+
+  /* Verde vivo (estado activo, entrada) */
+  --color-live-300: #8aecc4;
+  --color-live-400: #4adfa0;
+  --color-live-500: #22c988;
+
+  /* Ámbar (conectando) */
+  --color-warn-300: #ffd47e;
+  --color-warn-400: #f2b84b;
+
+  /* Rojo (error) */
+  --color-alert-300: #ffa8a0;
+  --color-alert-400: #f2726a;
+
+  /* Cian (lado remoto) */
+  --color-link-300: #9adcf5;
+  --color-link-400: #58c4ec;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background-color: var(--color-ink-900);
+  color: var(--color-fog-100);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+/* ── Fondo ambiental por capas: rejilla técnica + dos focos de luz ── */
+.app-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(130, 153, 176, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(130, 153, 176, 0.045) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 30%, black 30%, transparent 100%);
+}
+
+.app-backdrop::before,
+.app-backdrop::after {
+  content: "";
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(70px);
+}
+
+.app-backdrop::before {
+  width: 620px;
+  height: 620px;
+  top: -220px;
+  left: -160px;
+  background: radial-gradient(circle, rgba(255, 102, 54, 0.13), transparent 65%);
+  animation: glow-drift 26s ease-in-out infinite alternate;
+}
+
+.app-backdrop::after {
+  width: 720px;
+  height: 720px;
+  bottom: -280px;
+  right: -200px;
+  background: radial-gradient(circle, rgba(88, 196, 236, 0.1), transparent 65%);
+  animation: glow-drift 32s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes glow-drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(60px, 40px, 0) scale(1.12);
+  }
+}
+
+/* ── Animaciones de entrada y estado ── */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes packet-travel {
+  0% {
+    left: -4%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes dot-pulse-ring {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(74, 223, 160, 0.5);
+  }
+  55% {
+    box-shadow: 0 0 0 5px rgba(74, 223, 160, 0);
+  }
+}
+
+@keyframes caret-blink {
+  0%,
+  55% {
+    opacity: 1;
+  }
+  56%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: -400px 0;
+  }
+  to {
+    background-position: 400px 0;
+  }
+}
+
+.anim-rise {
+  animation: rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.anim-pop {
+  animation: pop 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.dot-pulse {
+  animation: dot-pulse-ring 1.8s ease-out infinite;
+}
+
+.caret-blink {
+  animation: caret-blink 1.1s steps(1) infinite;
+}
+
+.packet-dot {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  margin-top: -2.5px;
+  border-radius: 9999px;
+  background: var(--color-live-400);
+  box-shadow: 0 0 8px rgba(74, 223, 160, 0.85);
+  opacity: 0;
+  animation: packet-travel 1.65s linear infinite;
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-ink-800) 25%,
+    var(--color-ink-750) 40%,
+    var(--color-ink-800) 60%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+/* ── Scrollbars finos ── */
+.scrollbar-slim::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scrollbar-slim::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-slim::-webkit-scrollbar-thumb {
+  background: var(--color-ink-600);
+  border-radius: 8px;
+}
+
+.scrollbar-slim::-webkit-scrollbar-thumb:hover {
+  background: var(--color-line-strong);
+}
+
+/* ── Selección y foco ── */
+::selection {
+  background: rgba(255, 102, 54, 0.32);
+  color: var(--color-fog-100);
+}
+
+:focus-visible {
+  outline: 2px solid rgba(255, 127, 85, 0.6);
+  outline-offset: 1px;
+}
+
+/* ── Accesibilidad: reducir movimiento ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
