@@ -42,7 +42,7 @@ Download pre-compiled Windows binaries from the official [v1.0.0 Release Page](h
 - **🌐 One-Click Browser Launch**: Click on any local endpoint (`127.0.0.1:<port>`) or the browser button to instantly open target web services (Adminer, PostgreSQL Web, Redis UI, etc.) in your system's default browser.
 - **🖥️ Native Windows PowerShell Integration**: Launch detached PowerShell, PowerShell Core 7 (`pwsh`), or Windows Terminal (`wt.exe`) windows pre-configured with active SSH sessions (`ssh -p <port> -i <key> user@host`) or diagnostic scripts (`Test-NetConnection`).
 - **📊 Real-time Traffic Telemetry & Sparklines**: Monitor live throughput (bytes sent/received), active connections, and session uptime with smooth SVG sparkline charts.
-- **📌 System Tray Context Menu**: Minimize to tray with active background tunnels. Manage global connections (*Conectar todo*, *Desconectar todo*, *Abrir PowerShell*, *Salir*) directly from the tray context menu.
+- **📌 System Tray Context Menu**: Minimize to tray with active background tunnels. Manage global connections (*Connect all*, *Disconnect all*, *Open PowerShell*, *Quit*) directly from the tray context menu.
 
 ---
 
