@@ -120,7 +120,7 @@ export function Sidebar({
           </p>
         </div>
         <span className="rounded border border-line px-1.5 py-0.5 font-mono text-[10px] text-fog-500">
-          v1.1
+          v1.0
         </span>
       </div>
 
