@@ -120,9 +120,20 @@ export function Sidebar({
             ssh tunnel manager
           </p>
         </div>
-        <span className="rounded border border-line px-1.5 py-0.5 font-mono text-[10px] text-fog-500">
-          v1.0
-        </span>
+        <button
+          type="button"
+          onMouseDown={(e) => e.stopPropagation()}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            api.openInBrowser("https://github.com/jaimitus/Tunnex");
+          }}
+          className="inline-flex items-center gap-1 rounded border border-line px-1.5 py-0.5 font-mono text-[10px] text-fog-500 transition-colors hover:border-signal-500/50 hover:bg-ink-750 hover:text-signal-300 cursor-pointer pointer-events-auto"
+          title="Open https://github.com/jaimitus/Tunnex"
+        >
+          <span>v1.0</span>
+          <ExternalLink size={9} className="opacity-70" />
+        </button>
       </div>
 
       {/* Navigation */}
@@ -325,8 +336,13 @@ export function Sidebar({
           </span>
           <button
             type="button"
-            onClick={() => api.openInBrowser("https://github.com/jaimitus/Tunnex")}
-            className="inline-flex items-center gap-1 rounded border border-line-strong bg-ink-750/90 px-2 py-0.5 font-sans text-[11px] font-medium text-fog-200 transition-all hover:border-signal-500/50 hover:bg-ink-700 hover:text-signal-300 cursor-pointer"
+            onMouseDown={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              api.openInBrowser("https://github.com/jaimitus/Tunnex");
+            }}
+            className="relative z-20 inline-flex items-center gap-1 rounded border border-line-strong bg-ink-750/90 px-2 py-0.5 font-sans text-[11px] font-medium text-fog-200 transition-all hover:border-signal-500/50 hover:bg-ink-700 hover:text-signal-300 cursor-pointer pointer-events-auto"
             title="https://github.com/jaimitus/Tunnex"
           >
             <span>GitHub</span>

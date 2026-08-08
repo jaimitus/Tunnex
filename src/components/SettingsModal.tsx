@@ -317,8 +317,13 @@ export function SettingsModal({
           <div className="flex items-center gap-2">
             <button
               type="button"
-              onClick={() => api.openInBrowser("https://github.com/jaimitus/Tunnex")}
-              className="inline-flex items-center gap-1.5 rounded-md border border-line-strong bg-ink-800 px-2.5 py-1.5 text-[11.5px] font-medium text-fog-200 transition-all hover:border-signal-500/50 hover:bg-ink-700 hover:text-signal-300 cursor-pointer"
+              onMouseDown={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                api.openInBrowser("https://github.com/jaimitus/Tunnex");
+              }}
+              className="inline-flex items-center gap-1.5 rounded-md border border-line-strong bg-ink-800 px-2.5 py-1.5 text-[11.5px] font-medium text-fog-200 transition-all hover:border-signal-500/50 hover:bg-ink-700 hover:text-signal-300 cursor-pointer pointer-events-auto"
               title="Open GitHub Repository"
             >
               <span>GitHub</span>
