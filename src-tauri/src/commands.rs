@@ -510,27 +510,18 @@ pub async fn open_in_browser(_manager: State<'_, TunnelManager>, url: String) ->
     {
         use std::os::windows::process::CommandExt;
 
-        // Method 1: cmd.exe /c start "" "<url>" (Fast native Windows ShellExecute handoff)
-        let status = std::process::Command::new("cmd.exe")
-            .arg("/c")
-            .arg("start")
-            .arg("")
+        // Method 1: rundll32.exe url.dll,FileProtocolHandler (Native Windows ShellExecute)
+        let _ = std::process::Command::new("rundll32.exe")
+            .arg("url.dll,FileProtocolHandler")
             .arg(&clean)
             .creation_flags(0x0800_0000)
-            .status();
+            .spawn();
 
-        if let Ok(st) = status {
-            if st.success() {
-                return Ok(());
-            }
-        }
-
-        // Method 2: explorer.exe <url> fallback
-        std::process::Command::new("explorer.exe")
-            .arg(&clean)
+        // Method 2: cmd.exe /c start "" "<url>" (Direct Windows shell handoff)
+        let _ = std::process::Command::new("cmd.exe")
+            .args(["/c", "start", "", &clean])
             .creation_flags(0x0800_0000)
-            .spawn()
-            .map_err(|e| format!("could not open browser: {e}"))?;
+            .spawn();
 
         Ok(())
     }

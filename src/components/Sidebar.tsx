@@ -322,32 +322,31 @@ export function Sidebar({
           </button>
         </div>
 
+        <button
+          type="button"
+          onMouseDown={(e) => e.stopPropagation()}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            api.openInBrowser("https://github.com/jaimitus/Tunnex");
+          }}
+          className="flex w-full items-center justify-center gap-1.5 rounded-md border border-line-strong bg-ink-750/90 py-1.5 text-[12px] font-medium text-fog-200 transition-all hover:border-signal-500/50 hover:bg-ink-700 hover:text-signal-300 cursor-pointer pointer-events-auto"
+          title="Open https://github.com/jaimitus/Tunnex"
+        >
+          <span>GitHub Repository</span>
+          <ExternalLink size={11} className="opacity-70" />
+        </button>
+
         <div
           className={cn(
-            "flex items-center justify-between gap-1.5 rounded-md border px-2.5 py-1.5 font-mono text-[10px]",
+            "flex items-center justify-center gap-1.5 rounded-md border px-2.5 py-1.5 font-mono text-[10px]",
             isTauri
               ? "border-live-500/30 bg-live-500/5 text-live-300"
               : "border-warn-400/30 bg-warn-400/5 text-warn-300"
           )}
         >
-          <span className="flex items-center gap-1.5">
-            <Dot kind={isTauri ? "live" : "warn"} small />
-            {isTauri ? "v1.0.0 · NATIVE" : "DEMO MODE"}
-          </span>
-          <button
-            type="button"
-            onMouseDown={(e) => e.stopPropagation()}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              api.openInBrowser("https://github.com/jaimitus/Tunnex");
-            }}
-            className="relative z-20 inline-flex items-center gap-1 rounded border border-line-strong bg-ink-750/90 px-2 py-0.5 font-sans text-[11px] font-medium text-fog-200 transition-all hover:border-signal-500/50 hover:bg-ink-700 hover:text-signal-300 cursor-pointer pointer-events-auto"
-            title="https://github.com/jaimitus/Tunnex"
-          >
-            <span>GitHub</span>
-            <ExternalLink size={10} className="opacity-70" />
-          </button>
+          <Dot kind={isTauri ? "live" : "warn"} small />
+          <span>{isTauri ? "v1.0.0 · NATIVE ENGINE" : "DEMO MODE"}</span>
         </div>
       </div>
     </aside>
