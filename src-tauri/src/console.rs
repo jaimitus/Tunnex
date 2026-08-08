@@ -192,36 +192,80 @@ fn tunnel_script(rule: &PortForwardRule, profile: &SshProfile, title: &str) -> S
     script
 }
 
+fn to_base64_utf16(script: &str) -> String {
+    use base64::Engine;
+    let utf16: Vec<u8> = script
+        .encode_utf16()
+        .flat_map(|c| c.to_le_bytes())
+        .collect();
+    base64::engine::general_purpose::STANDARD.encode(&utf16)
+}
+
 /// Spawns the terminal window running `script`.
 #[cfg(windows)]
 fn spawn(kind: TerminalKind, title: &str, script: &str, keep_open: bool) -> Result<(), ConsoleError> {
+    let b64_script = to_base64_utf16(script);
     let shell = kind.shell_executable();
+
     let mut command = match kind {
         TerminalKind::WindowsTerminal => {
             let mut cmd = Command::new("wt.exe");
             cmd.arg("new-tab").arg("--title").arg(title).arg(shell);
+            if keep_open {
+                cmd.arg("-NoExit");
+            }
+            cmd.arg("-NoProfile")
+                .arg("-ExecutionPolicy")
+                .arg("Bypass")
+                .arg("-EncodedCommand")
+                .arg(&b64_script);
             cmd
         }
-        _ => Command::new(shell),
+        _ => {
+            let mut cmd = Command::new(shell);
+            cmd.arg("-NoLogo");
+            if keep_open {
+                cmd.arg("-NoExit");
+            }
+            cmd.arg("-NoProfile")
+                .arg("-ExecutionPolicy")
+                .arg("Bypass")
+                .arg("-EncodedCommand")
+                .arg(&b64_script);
+            cmd
+        }
     };
 
-    command.arg("-NoLogo");
-    if keep_open {
-        command.arg("-NoExit");
+    command.creation_flags(CREATE_NEW_CONSOLE);
+
+    match command.spawn() {
+        Ok(_) => Ok(()),
+        Err(e) if kind == TerminalKind::WindowsTerminal => {
+            log::warn!("wt.exe failed ({e}); falling back to standard powershell.exe");
+            let mut fallback = Command::new("powershell.exe");
+            fallback.arg("-NoLogo");
+            if keep_open {
+                fallback.arg("-NoExit");
+            }
+            fallback
+                .arg("-NoProfile")
+                .arg("-ExecutionPolicy")
+                .arg("Bypass")
+                .arg("-EncodedCommand")
+                .arg(&b64_script)
+                .creation_flags(CREATE_NEW_CONSOLE);
+
+            fallback.spawn().map_err(|source| ConsoleError::Spawn {
+                terminal: "powershell.exe".to_string(),
+                source,
+            })?;
+            Ok(())
+        }
+        Err(source) => Err(ConsoleError::Spawn {
+            terminal: kind.executable().to_string(),
+            source,
+        }),
     }
-    command
-        .arg("-ExecutionPolicy")
-        .arg("Bypass")
-        .arg("-Command")
-        .arg(script)
-        .creation_flags(CREATE_NEW_CONSOLE);
-
-    command.spawn().map_err(|source| ConsoleError::Spawn {
-        terminal: kind.executable().to_string(),
-        source,
-    })?;
-
-    Ok(())
 }
 
 /// Non-Windows builds cannot open a PowerShell console.

@@ -504,8 +504,17 @@ pub async fn open_in_browser(_manager: State<'_, TunnelManager>, url: String) ->
     #[cfg(windows)]
     {
         use std::os::windows::process::CommandExt;
-        std::process::Command::new("cmd")
-            .args(["/c", "start", "", &url])
+        let clean = url.trim().to_string();
+        if clean.is_empty() {
+            return Err("URL is empty".to_string());
+        }
+        std::process::Command::new("powershell.exe")
+            .args([
+                "-NoProfile",
+                "-NonInteractive",
+                "-Command",
+                &format!("Start-Process '{}'", clean.replace('\'', "''")),
+            ])
             .creation_flags(0x0800_0000)
             .spawn()
             .map_err(|e| format!("could not open browser: {e}"))?;

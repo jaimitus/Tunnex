@@ -89,6 +89,9 @@ fn configure_tray(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>
                 }
             }
             "quit" => {
+                if let Some(manager) = app.try_state::<TunnelManager>() {
+                    manager.stop_all();
+                }
                 app.exit(0);
             }
             _ => {}
@@ -209,8 +212,8 @@ fn main() {
         .build(tauri::generate_context!())
         .expect("failed to build the Tunnex application")
         .run(|app_handle, event| {
-            // On a real exit (tray menu -> Quit) shut every tunnel down.
-            if let tauri::RunEvent::Exit = event {
+            // On a real exit (tray menu -> Quit, system shutdown) shut every tunnel down.
+            if matches!(event, tauri::RunEvent::Exit | tauri::RunEvent::ExitRequested { .. }) {
                 if let Some(manager) = app_handle.try_state::<TunnelManager>() {
                     manager.stop_all();
                 }

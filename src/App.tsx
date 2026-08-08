@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import {
   Activity,
   AlertTriangle,
@@ -337,9 +337,13 @@ export default function App() {
     [mergeStatus, pushToast]
   );
 
+  const launchingConsoleRef = useRef(false);
+
   /** Opens a Windows PowerShell window with an interactive SSH session. */
   const handleProfileConsole = useCallback(
     async (profile: SshProfile) => {
+      if (launchingConsoleRef.current) return;
+      launchingConsoleRef.current = true;
       try {
         const launch = await api.openSshConsole(profile.id);
         if (isTauri) {
@@ -349,6 +353,10 @@ export default function App() {
         }
       } catch (error) {
         pushToast("error", `Could not open the console: ${String(error)}`);
+      } finally {
+        setTimeout(() => {
+          launchingConsoleRef.current = false;
+        }, 1000);
       }
     },
     [pushToast]
@@ -357,6 +365,8 @@ export default function App() {
   /** Opens a local PowerShell window pointed at the forwarded port. */
   const handleRuleConsole = useCallback(
     async (rule: PortForwardRule) => {
+      if (launchingConsoleRef.current) return;
+      launchingConsoleRef.current = true;
       try {
         const launch = await api.openTunnelConsole(rule.id);
         if (isTauri) {
@@ -366,6 +376,10 @@ export default function App() {
         }
       } catch (error) {
         pushToast("error", `Could not open the console: ${String(error)}`);
+      } finally {
+        setTimeout(() => {
+          launchingConsoleRef.current = false;
+        }, 1000);
       }
     },
     [pushToast]
