@@ -1,5 +1,6 @@
 import {
   Database,
+  ExternalLink,
   Layers,
   Pencil,
   Plus,
@@ -312,7 +313,7 @@ export function Sidebar({
 
         <div
           className={cn(
-            "flex items-center justify-between gap-1.5 rounded border px-2 py-1.5 font-mono text-[10px]",
+            "flex items-center justify-between gap-1.5 rounded-md border px-2.5 py-1.5 font-mono text-[10px]",
             isTauri
               ? "border-live-500/30 bg-live-500/5 text-live-300"
               : "border-warn-400/30 bg-warn-400/5 text-warn-300"
@@ -322,19 +323,15 @@ export function Sidebar({
             <Dot kind={isTauri ? "live" : "warn"} small />
             {isTauri ? "v1.0.0 · NATIVE" : "DEMO MODE"}
           </span>
-          <a
-            href="https://github.com/jaimitus/Tunnex"
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => {
-              e.preventDefault();
-              api.openInBrowser("https://github.com/jaimitus/Tunnex");
-            }}
-            className="text-fog-500 hover:text-signal-300 hover:underline cursor-pointer"
+          <button
+            type="button"
+            onClick={() => api.openInBrowser("https://github.com/jaimitus/Tunnex")}
+            className="inline-flex items-center gap-1 rounded border border-line-strong bg-ink-750/90 px-2 py-0.5 font-sans text-[11px] font-medium text-fog-200 transition-all hover:border-signal-500/50 hover:bg-ink-700 hover:text-signal-300 cursor-pointer"
             title="https://github.com/jaimitus/Tunnex"
           >
-            GitHub ↗
-          </a>
+            <span>GitHub</span>
+            <ExternalLink size={10} className="opacity-70" />
+          </button>
         </div>
       </div>
     </aside>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  ExternalLink,
   FolderOpen,
   HardDrive,
   Info,
@@ -310,29 +311,23 @@ export function SettingsModal({
         )}
 
         <div className="flex items-center justify-between gap-3 border-t border-line pt-4">
-          <div className="flex items-center gap-2">
-            <p className="font-mono text-[10.5px] leading-relaxed text-fog-600">
-              Tunnex v1.0.0 · Tauri v2 + Rust · React 19 · Windows 10/11 x64
-            </p>
-            <a
-              href="https://github.com/jaimitus/Tunnex"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => {
-                e.preventDefault();
-                api.openInBrowser("https://github.com/jaimitus/Tunnex");
-              }}
-              className="font-mono text-[10.5px] text-signal-400 hover:underline cursor-pointer"
-              title="Open GitHub Repository"
-            >
-              GitHub (jaimitus/Tunnex)
-            </a>
-          </div>
+          <p className="font-mono text-[10.5px] leading-relaxed text-fog-600">
+            Tunnex v1.0.0 · Tauri v2 + Rust · React 19 · Windows 10/11 x64
+          </p>
           <div className="flex items-center gap-2">
             <button
               type="button"
+              onClick={() => api.openInBrowser("https://github.com/jaimitus/Tunnex")}
+              className="inline-flex items-center gap-1.5 rounded-md border border-line-strong bg-ink-800 px-2.5 py-1.5 text-[11.5px] font-medium text-fog-200 transition-all hover:border-signal-500/50 hover:bg-ink-700 hover:text-signal-300 cursor-pointer"
+              title="Open GitHub Repository"
+            >
+              <span>GitHub</span>
+              <ExternalLink size={11} className="opacity-70" />
+            </button>
+            <button
+              type="button"
               onClick={onClose}
-              className="rounded-md border border-line px-3.5 py-2 text-[12.5px] font-medium text-fog-300 transition-colors hover:border-line-strong hover:bg-ink-750 hover:text-fog-100"
+              className="rounded-md border border-line px-3.5 py-1.5 text-[12px] font-medium text-fog-300 transition-colors hover:border-line-strong hover:bg-ink-750 hover:text-fog-100 cursor-pointer"
             >
               Close
             </button>
