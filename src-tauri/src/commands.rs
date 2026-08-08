@@ -504,20 +504,29 @@ pub async fn open_in_browser(_manager: State<'_, TunnelManager>, url: String) ->
     #[cfg(windows)]
     {
         use std::os::windows::process::CommandExt;
-        let clean = url.trim().to_string();
-        if clean.is_empty() {
+        let clean_url = url.trim().to_string();
+        if clean_url.is_empty() {
             return Err("URL is empty".to_string());
         }
-        std::process::Command::new("powershell.exe")
-            .args([
-                "-NoProfile",
-                "-NonInteractive",
-                "-Command",
-                &format!("Start-Process '{}'", clean.replace('\'', "''")),
-            ])
+
+        // Method 1: rundll32.exe url.dll,FileProtocolHandler (Native Windows ShellExecute)
+        let child = std::process::Command::new("rundll32.exe")
+            .arg("url.dll,FileProtocolHandler")
+            .arg(&clean_url)
+            .creation_flags(0x0800_0000)
+            .spawn();
+
+        if child.is_ok() {
+            return Ok(());
+        }
+
+        // Method 2: explorer.exe fallback
+        std::process::Command::new("explorer.exe")
+            .arg(&clean_url)
             .creation_flags(0x0800_0000)
             .spawn()
-            .map_err(|e| format!("could not open browser: {e}"))?;
+            .map_err(|e| format!("could not open browser for {clean_url}: {e}"))?;
+
         Ok(())
     }
     #[cfg(not(windows))]
