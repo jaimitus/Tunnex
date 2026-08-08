@@ -510,32 +510,22 @@ pub async fn open_in_browser(_manager: State<'_, TunnelManager>, url: String) ->
     {
         use std::os::windows::process::CommandExt;
 
-        // Method 1: powershell Start-Process
-        let res1 = std::process::Command::new("powershell.exe")
-            .args([
-                "-NoProfile",
-                "-NonInteractive",
-                "-Command",
-                &format!("Start-Process '{clean}'"),
-            ])
+        // Method 1: cmd.exe /c start "" "<url>" (Fast native Windows ShellExecute handoff)
+        let status = std::process::Command::new("cmd.exe")
+            .arg("/c")
+            .arg("start")
+            .arg("")
+            .arg(&clean)
             .creation_flags(0x0800_0000)
-            .spawn();
+            .status();
 
-        if res1.is_ok() {
-            return Ok(());
+        if let Ok(st) = status {
+            if st.success() {
+                return Ok(());
+            }
         }
 
-        // Method 2: cmd /c start <url>
-        let res2 = std::process::Command::new("cmd.exe")
-            .args(["/c", "start", "", &clean])
-            .creation_flags(0x0800_0000)
-            .spawn();
-
-        if res2.is_ok() {
-            return Ok(());
-        }
-
-        // Method 3: explorer.exe fallback
+        // Method 2: explorer.exe <url> fallback
         std::process::Command::new("explorer.exe")
             .arg(&clean)
             .creation_flags(0x0800_0000)
