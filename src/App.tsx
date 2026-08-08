@@ -659,15 +659,6 @@ export default function App() {
           <span className="flex items-center gap-3">
             <span>config: %APPDATA%/tunnex/config.json</span>
             <Clock />
-            <svg
-              width="10"
-              height="10"
-              viewBox="0 0 10 10"
-              className="ml-1 cursor-se-resize text-fog-600 opacity-60 hover:opacity-100"
-              title="Window resize corner"
-            >
-              <path d="M8 2L2 8M8 5L5 8M8 8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-            </svg>
           </span>
         </footer>
       </main>
