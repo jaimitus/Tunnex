@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, Wand2, Zap } from "lucide-react";
 import { Modal } from "./Modal";
 import { Field, SwitchRow, inputCls } from "./form";
 import { cn } from "../utils/cn";
@@ -42,6 +42,50 @@ export function RuleModal({
     const parsed = Number.parseInt(raw, 10);
     if (!Number.isInteger(parsed) || parsed < 1 || parsed > 65535) return null;
     return parsed;
+  };
+
+  const handleAutoInsert = () => {
+    const rPort = validatePort(remotePort) ?? 8080;
+    if (!remotePort) {
+      setRemotePort(String(rPort));
+    }
+
+    const usedPorts = new Set(
+      rules.filter((r) => r.id !== initial?.id).map((r) => r.local_port)
+    );
+
+    let candidate = rPort;
+    if (usedPorts.has(candidate)) {
+      const standardPorts = [8080, 5432, 3000, 8000, 9000, 6379, 27017, 3306, 9200, 10080, 10443];
+      const foundStandard = standardPorts.find((p) => !usedPorts.has(p));
+      if (foundStandard) {
+        candidate = foundStandard;
+      } else {
+        candidate = 8081;
+        while (usedPorts.has(candidate) && candidate < 65535) {
+          candidate++;
+        }
+      }
+    }
+
+    setLocalPort(String(candidate));
+
+    if (!remoteHost.trim()) {
+      setRemoteHost("127.0.0.1");
+    }
+
+    if (!name.trim()) {
+      const targetHost = remoteHost.trim() || "127.0.0.1";
+      setName(`Forward ${targetHost}:${rPort}`);
+    }
+
+    setErrors((prev) => ({
+      ...prev,
+      localPort: "",
+      remotePort: "",
+      remoteHost: "",
+      name: "",
+    }));
   };
 
   const privilegedWarning =
@@ -153,15 +197,40 @@ export function RuleModal({
           </select>
         </Field>
 
-        <div className="grid grid-cols-[110px_1fr_110px] items-start gap-3">
+        <div className="flex items-center justify-between border-b border-line pb-2 pt-1">
+          <span className="font-mono text-[11px] font-medium text-fog-500 uppercase tracking-wider">
+            Port Forwarding Target
+          </span>
+          <button
+            type="button"
+            onClick={handleAutoInsert}
+            className="flex items-center gap-1.5 rounded border border-signal-500/40 bg-signal-500/10 px-2.5 py-1 font-mono text-[11px] font-semibold text-signal-300 transition-colors hover:bg-signal-500/25 hover:text-signal-200"
+            title="Auto-fill recommended free ports and target host"
+          >
+            <Zap size={12} className="fill-signal-300" />
+            Auto Insert
+          </button>
+        </div>
+
+        <div className="grid grid-cols-[120px_1fr_110px] items-start gap-3">
           <Field label="Local port" error={errors.localPort} hint={privilegedWarning}>
-            <input
-              className={cn(inputCls, "font-mono", errors.localPort && "border-alert-400/60")}
-              value={localPort}
-              onChange={(e) => setLocalPort(e.target.value.replace(/[^\d]/g, ""))}
-              placeholder="5432"
-              inputMode="numeric"
-            />
+            <div className="relative">
+              <input
+                className={cn(inputCls, "font-mono pr-12", errors.localPort && "border-alert-400/60")}
+                value={localPort}
+                onChange={(e) => setLocalPort(e.target.value.replace(/[^\d]/g, ""))}
+                placeholder="5432"
+                inputMode="numeric"
+              />
+              <button
+                type="button"
+                onClick={handleAutoInsert}
+                title="Auto-assign free port"
+                className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded bg-ink-700 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-signal-300 transition-colors hover:bg-signal-500/20"
+              >
+                Auto
+              </button>
+            </div>
           </Field>
           <Field label="Remote host" error={errors.remoteHost}>
             <input

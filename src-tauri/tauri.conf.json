@@ -21,7 +21,9 @@
         "center": true,
         "backgroundColor": "#0a101a",
         "visible": true,
-        "resizable": true
+        "resizable": true,
+        "shadow": true,
+        "dragDropEnabled": true
       }
     ],
     "security": {
