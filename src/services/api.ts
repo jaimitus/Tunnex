@@ -106,7 +106,12 @@ export const api = {
   /** Opens the default web browser pointed at the specified URL. */
   async openInBrowser(url: string): Promise<void> {
     if (isTauri) {
-      return invoke("open_in_browser", { url });
+      try {
+        await invoke("open_in_browser", { url });
+      } catch (err) {
+        console.error("Native open_in_browser failed, falling back to window.open:", err);
+        window.open(url, "_blank");
+      }
     } else {
       window.open(url, "_blank");
     }

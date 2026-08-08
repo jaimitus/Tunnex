@@ -314,14 +314,19 @@ export function SettingsModal({
             <p className="font-mono text-[10.5px] leading-relaxed text-fog-600">
               Tunnex v1.0.0 · Tauri v2 + Rust · React 19 · Windows 10/11 x64
             </p>
-            <button
-              type="button"
-              onClick={() => api.openInBrowser("https://github.com/jaimitus/Tunnex")}
-              className="font-mono text-[10.5px] text-signal-400 hover:underline"
+            <a
+              href="https://github.com/jaimitus/Tunnex"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => {
+                e.preventDefault();
+                api.openInBrowser("https://github.com/jaimitus/Tunnex");
+              }}
+              className="font-mono text-[10.5px] text-signal-400 hover:underline cursor-pointer"
               title="Open GitHub Repository"
             >
               GitHub (jaimitus/Tunnex)
-            </button>
+            </a>
           </div>
           <div className="flex items-center gap-2">
             <button

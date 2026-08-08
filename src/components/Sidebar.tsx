@@ -322,14 +322,19 @@ export function Sidebar({
             <Dot kind={isTauri ? "live" : "warn"} small />
             {isTauri ? "v1.0.0 · NATIVE" : "DEMO MODE"}
           </span>
-          <button
-            type="button"
-            onClick={() => api.openInBrowser("https://github.com/jaimitus/Tunnex")}
-            className="text-fog-500 hover:text-signal-300 hover:underline"
+          <a
+            href="https://github.com/jaimitus/Tunnex"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => {
+              e.preventDefault();
+              api.openInBrowser("https://github.com/jaimitus/Tunnex");
+            }}
+            className="text-fog-500 hover:text-signal-300 hover:underline cursor-pointer"
             title="https://github.com/jaimitus/Tunnex"
           >
             GitHub ↗
-          </button>
+          </a>
         </div>
       </div>
     </aside>
