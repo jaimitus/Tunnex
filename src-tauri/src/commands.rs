@@ -506,29 +506,8 @@ pub async fn open_in_browser(_manager: State<'_, TunnelManager>, url: String) ->
         return Err("URL is empty".to_string());
     }
 
-    #[cfg(windows)]
-    {
-        use std::os::windows::process::CommandExt;
-
-        // Method 1: rundll32.exe url.dll,FileProtocolHandler (Native Windows ShellExecute)
-        let _ = std::process::Command::new("rundll32.exe")
-            .arg("url.dll,FileProtocolHandler")
-            .arg(&clean)
-            .creation_flags(0x0800_0000)
-            .spawn();
-
-        // Method 2: cmd.exe /c start "" "<url>" (Direct Windows shell handoff)
-        let _ = std::process::Command::new("cmd.exe")
-            .args(["/c", "start", "", &clean])
-            .creation_flags(0x0800_0000)
-            .spawn();
-
-        Ok(())
-    }
-    #[cfg(not(windows))]
-    {
-        Err("unsupported platform".to_string())
-    }
+    open::that(&clean).map_err(|e| format!("could not open browser for {clean}: {e}"))?;
+    Ok(())
 }
 
 

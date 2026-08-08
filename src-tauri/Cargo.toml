@@ -45,6 +45,9 @@ uuid = { version = "1", features = ["v4", "serde"] }
 # Base64 encoding for PowerShell commands
 base64 = "0.22"
 
+# Direct Windows ShellExecute URL launcher
+open = "5.3"
+
 # Tipado de errores del backend
 thiserror = "2"
 
