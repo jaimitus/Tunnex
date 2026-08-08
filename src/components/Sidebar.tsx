@@ -1,6 +1,5 @@
 import {
   Database,
-  ExternalLink,
   Layers,
   Pencil,
   Plus,
@@ -120,20 +119,9 @@ export function Sidebar({
             ssh tunnel manager
           </p>
         </div>
-        <button
-          type="button"
-          onMouseDown={(e) => e.stopPropagation()}
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            api.openInBrowser("https://github.com/jaimitus/Tunnex");
-          }}
-          className="inline-flex items-center gap-1 rounded border border-line px-1.5 py-0.5 font-mono text-[10px] text-fog-500 transition-colors hover:border-signal-500/50 hover:bg-ink-750 hover:text-signal-300 cursor-pointer pointer-events-auto"
-          title="Open https://github.com/jaimitus/Tunnex"
-        >
-          <span>v1.0</span>
-          <ExternalLink size={9} className="opacity-70" />
-        </button>
+        <span className="rounded border border-line px-1.5 py-0.5 font-mono text-[10px] text-fog-500">
+          v1.0
+        </span>
       </div>
 
       {/* Navigation */}
@@ -321,21 +309,6 @@ export function Sidebar({
             Storage
           </button>
         </div>
-
-        <button
-          type="button"
-          onMouseDown={(e) => e.stopPropagation()}
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            api.openInBrowser("https://github.com/jaimitus/Tunnex");
-          }}
-          className="flex w-full items-center justify-center gap-1.5 rounded-md border border-line-strong bg-ink-750/90 py-1.5 text-[12px] font-medium text-fog-200 transition-all hover:border-signal-500/50 hover:bg-ink-700 hover:text-signal-300 cursor-pointer pointer-events-auto"
-          title="Open https://github.com/jaimitus/Tunnex"
-        >
-          <span>GitHub Repository</span>
-          <ExternalLink size={11} className="opacity-70" />
-        </button>
 
         <div
           className={cn(
